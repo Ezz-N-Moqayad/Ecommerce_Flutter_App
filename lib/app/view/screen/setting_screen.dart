@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/app/storage/shared_prefrenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -75,12 +76,18 @@ class SettingScreen extends StatelessWidget {
                   ),),
                 ),
                 Divider(),
-                ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text("Logout", style: GoogleFonts.quicksand(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),),
+                InkWell(
+                  onTap: () {
+                    SharedPrefController().clear();
+                    Navigator.pushReplacementNamed(context, "/sign_in_screen");
+                  },
+                  child: ListTile(
+                    leading: Icon(Icons.logout),
+                    title: Text("Logout", style: GoogleFonts.quicksand(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),),
+                  ),
                 ),
               ],
             ),

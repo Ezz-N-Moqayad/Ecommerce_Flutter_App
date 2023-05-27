@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/app/controller/user_controller.dart';
+import 'package:e_commerce_app/app/storage/shared_prefrenses_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -96,7 +98,7 @@ class _SignInState extends State<SignIn> {
             ),
             SizedBox(height: 25,),
             ElevatedButton(onPressed: (){
-              Navigator.pushReplacementNamed(context, "/home_screen");
+              _login();
             }, child: Text("LOGIN"), style: ElevatedButton.styleFrom(
               minimumSize: Size(315, 53),
               shape: RoundedRectangleBorder(
@@ -128,5 +130,42 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  bool checkData () {
+    if (_emailTextControll.text.isNotEmpty && _passwordTextController.text.isNotEmpty) {
+      return true;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enter Required Data"),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    return false;
+  }
+
+  void login () {
+    SharedPrefController().setEmail(_emailTextControll.text);
+    SharedPrefController().setLogin(true);
+    Navigator.pushReplacementNamed(context, "/home_screen");
+  }
+
+  void performLogin () {
+    if (checkData()) {
+      login();
+    }
+  }
+
+  void _login() async {
+    bool loggedIn = await UserController().login(_emailTextControll.text, _passwordTextController.text);
+    if (loggedIn) {
+      Navigator.pushReplacementNamed(context, '/home_screen');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login failed"), backgroundColor: Colors.red,),
+      );
+    }
   }
 }

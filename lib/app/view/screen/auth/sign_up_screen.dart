@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/app/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -175,7 +176,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: true,
                 ),
                 SizedBox(height: 35,),
-                ElevatedButton(onPressed: (){}, child: Text("Sign Up"), style: ElevatedButton.styleFrom(
+                ElevatedButton(onPressed: (){
+                  _register();
+                }, child: Text("Sign Up"), style: ElevatedButton.styleFrom(
                   minimumSize: Size(315, 53),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -187,5 +190,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  bool checkData () {
+    if (_firstNameTextController.text.isNotEmpty && _lastNameTextController.text.isNotEmpty && _emailTextController.text.isNotEmpty && _phoneTextController.text.isNotEmpty && _passwordTextController.text.isNotEmpty) {
+      return true;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enter Required Data"),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    return false;
+  }
+
+  void register () {
+    Navigator.pushReplacementNamed(context, "/sign_in_screen");
+  }
+  void performRegister () {
+    if (checkData()) {
+      register();
+    }
+  }
+
+  void _register() async {
+    bool saved = await UserController().save(_firstNameTextController.text, _lastNameTextController.text, _emailTextController.text, _phoneTextController.text, _passwordTextController.text);
+    if (saved) {
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Registration failed, check and try again"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }

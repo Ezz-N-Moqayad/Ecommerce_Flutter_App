@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/app/storage/db_controller.dart';
+import 'package:e_commerce_app/app/storage/shared_prefrenses_controller.dart';
 import 'package:e_commerce_app/app/view/screen/auth/sign_in.dart';
 import 'package:e_commerce_app/app/view/screen/auth/sign_up_screen.dart';
 import 'package:e_commerce_app/app/view/screen/cart_screen.dart';
@@ -9,7 +11,11 @@ import 'package:e_commerce_app/app/view/screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefController().initPrefrenses();
+  await DbController().initDatabase();
+
   runApp(MyApp());
 }
 
