@@ -10,7 +10,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   late TextEditingController _firstNameTextController;
   late TextEditingController _lastNameTextController;
   late TextEditingController _emailTextController;
@@ -37,35 +36,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _passwordTextController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 60,
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back_ios, color: Color(0xFF000000),)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF000000),
+            )),
       ),
       body: Padding(
-        padding: EdgeInsets.all(27),
+        padding: const EdgeInsets.all(27),
         child: ListView(
           children: [
             Column(
               children: [
-                SizedBox(height: 26,),
-                Text("Sign Up", style: GoogleFonts.neuton(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),),
-                SizedBox(
+                const SizedBox(
+                  height: 26,
+                ),
+                Text(
+                  "Sign Up",
+                  style: GoogleFonts.neuton(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
+                const SizedBox(
                   height: 6,
                 ),
-                Text("Create an account", style: GoogleFonts.roboto(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300
-                ),),
-                SizedBox(height: 37,),
-
+                Text(
+                  "Create an account",
+                  style: GoogleFonts.roboto(
+                      fontSize: 18, fontWeight: FontWeight.w300),
+                ),
+                const SizedBox(
+                  height: 37,
+                ),
                 TextField(
                   controller: _firstNameTextController,
                   keyboardType: TextInputType.name,
@@ -79,15 +91,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color(0xFFD0D0D0),
-                          width: 1
-                      ),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFFD0D0D0), width: 1),
                     ),
                   ),
                 ),
-                SizedBox(height: 17,),
+                const SizedBox(
+                  height: 17,
+                ),
                 TextField(
                   controller: _lastNameTextController,
                   keyboardType: TextInputType.name,
@@ -101,15 +113,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color(0xFFD0D0D0),
-                            width: 1
-                        )
-                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFFD0D0D0), width: 1)),
                   ),
                 ),
-                SizedBox(height: 17,),
+                const SizedBox(
+                  height: 17,
+                ),
                 TextField(
                   controller: _emailTextController,
                   keyboardType: TextInputType.emailAddress,
@@ -123,15 +134,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color(0xFFD0D0D0),
-                            width: 1
-                        )
-                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFFD0D0D0), width: 1)),
                   ),
                 ),
-                SizedBox(height: 17,),
+                const SizedBox(
+                  height: 17,
+                ),
                 TextField(
                   controller: _phoneTextController,
                   keyboardType: TextInputType.phone,
@@ -145,15 +155,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color(0xFFD0D0D0),
-                            width: 1
-                        )
-                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFFD0D0D0), width: 1)),
                   ),
                 ),
-                SizedBox(height: 17,),
+                const SizedBox(
+                  height: 17,
+                ),
                 TextField(
                   controller: _passwordTextController,
                   style: GoogleFonts.roboto(
@@ -166,24 +175,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color(0xFFD0D0D0),
-                            width: 1
-                        )
-                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFFD0D0D0), width: 1)),
                   ),
                   obscureText: true,
                 ),
-                SizedBox(height: 35,),
-                ElevatedButton(onPressed: (){
-                  _register();
-                }, child: Text("Sign Up"), style: ElevatedButton.styleFrom(
-                  minimumSize: Size(315, 53),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                )),
+                const SizedBox(
+                  height: 35,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      _register();
+                    },
+                    child: const Text("Sign Up"),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(315, 53),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    )),
               ],
             ),
           ],
@@ -192,12 +203,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  bool checkData () {
-    if (_firstNameTextController.text.isNotEmpty && _lastNameTextController.text.isNotEmpty && _emailTextController.text.isNotEmpty && _phoneTextController.text.isNotEmpty && _passwordTextController.text.isNotEmpty) {
+  bool checkData() {
+    if (_firstNameTextController.text.isNotEmpty &&
+        _lastNameTextController.text.isNotEmpty &&
+        _emailTextController.text.isNotEmpty &&
+        _phoneTextController.text.isNotEmpty &&
+        _passwordTextController.text.isNotEmpty) {
       return true;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text("Enter Required Data"),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
@@ -206,22 +221,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return false;
   }
 
-  void register () {
+  void register() {
     Navigator.pushReplacementNamed(context, "/sign_in_screen");
   }
-  void performRegister () {
+
+  void performRegister() {
     if (checkData()) {
       register();
     }
   }
 
   void _register() async {
-    bool saved = await UserController().save(_firstNameTextController.text, _lastNameTextController.text, _emailTextController.text, _phoneTextController.text, _passwordTextController.text);
+    bool saved = await UserController().save(
+        _firstNameTextController.text,
+        _lastNameTextController.text,
+        _emailTextController.text,
+        _phoneTextController.text,
+        _passwordTextController.text);
     if (saved) {
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Registration failed, check and try again"),
           backgroundColor: Colors.red,
         ),
