@@ -1,267 +1,173 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
-import '../../controller/product_controller.dart';
+import '../../firebase/fb_fire_store_controller.dart';
 import '../../model/product.dart';
+import '../../utils/helpers.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({Key? key}) : super(key: key);
+class AddProduct extends StatefulWidget {
+  const AddProduct({Key? key, this.product}) : super(key: key);
+  final Product? product;
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<AddProduct> createState() => _AddProductState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
-  late TextEditingController _nameTextController;
-  late TextEditingController _categoryTextController;
-  late TextEditingController _descriptionTextController;
-  late TextEditingController _priceTextController;
-  late TextEditingController _imageTextController;
+class _AddProductState extends State<AddProduct> with Helpers {
+  late TextEditingController _titleTextController;
+  late TextEditingController _priceController;
 
   @override
   void initState() {
     super.initState();
-    _nameTextController = TextEditingController();
-    _categoryTextController = TextEditingController();
-    _descriptionTextController = TextEditingController();
-    _priceTextController = TextEditingController();
-    _imageTextController = TextEditingController();
+    _titleTextController = TextEditingController(text: widget.product?.title);
+    _priceController = TextEditingController(text: widget.product?.price);
   }
 
   @override
   void dispose() {
-    _nameTextController.dispose();
-    _categoryTextController.dispose();
-    _descriptionTextController.dispose();
-    _priceTextController.dispose();
-    _imageTextController.dispose();
+    _titleTextController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final productController = Provider.of<ProductController>(context);
-
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 60,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF000000),
-          ),
-        ),
+        toolbarHeight: 100,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: const [],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(27),
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                const SizedBox(height: 26),
-                Text(
-                  "App Product",
-                  style: GoogleFonts.neuton(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 30, end: 30),
+            child: TextField(
+              controller: _titleTextController,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.text,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                enabled: true,
+                hintText: 'Name',
+                filled: true,
+                fillColor: const Color(0xffFFFFFF),
+                hintStyle: const TextStyle(
+                  color: Colors.grey,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  "Create a new product",
-                  style: GoogleFonts.roboto(
-                      fontSize: 18, fontWeight: FontWeight.w300),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                const SizedBox(height: 37),
-                TextField(
-                  controller: _nameTextController,
-                  keyboardType: TextInputType.name,
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Name Product",
-                    hintStyle: GoogleFonts.roboto(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color(0xFFD0D0D0), width: 1),
-                    ),
-                  ),
+                constraints: const BoxConstraints(
+                  maxWidth: 400,
+                  maxHeight: 60,
                 ),
-                const SizedBox(
-                  height: 17,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0xff6A90F2),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                TextField(
-                  controller: _categoryTextController,
-                  keyboardType: TextInputType.name,
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Category",
-                    hintStyle: GoogleFonts.roboto(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFD0D0D0), width: 1)),
-                  ),
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
-                TextField(
-                  controller: _descriptionTextController,
-                  keyboardType: TextInputType.multiline,
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Description",
-                    hintStyle: GoogleFonts.roboto(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFFD0D0D0),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 17),
-                TextField(
-                  controller: _priceTextController,
-                  keyboardType: TextInputType.number,
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Price",
-                    hintStyle: GoogleFonts.roboto(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFFD0D0D0),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 17),
-                TextField(
-                  controller: _imageTextController,
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Image",
-                    hintStyle: GoogleFonts.roboto(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFFD0D0D0),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 35),
-                ElevatedButton(
-                  onPressed: () {
-                    final product = Product(
-                      name: _nameTextController.text ?? '',
-                      category: _categoryTextController.text ?? '',
-                      description: _descriptionTextController.text ?? '',
-                      price: _priceTextController.text ?? '',
-                      image: _imageTextController.text ?? '',
-                    );
-
-                    productController.addProduct(product);
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(315, 53),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  child: const Text("Create Product"),
-                ),
-              ],
+              ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 30, end: 30),
+            child: TextField(
+              controller: _priceController,
+              keyboardType: TextInputType.text,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                enabled: true,
+                hintText: 'Price',
+                filled: true,
+                fillColor: const Color(0xffFFFFFF),
+                hintStyle: const TextStyle(
+                  color: Colors.grey,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                constraints: const BoxConstraints(
+                  maxWidth: 400,
+                  maxHeight: 60,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0xff6A90F2),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () async => await _performSave(),
+            // ignore: sort_child_properties_last
+            child: const Text('SAVE'),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(328, 60),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  String getScreenTitle() => isNewNote() ? 'Create Note' : 'Update Note';
+
+  Future<void> _performSave() async {
+    if (checkData()) {
+      await _save();
+    }
   }
 
   bool checkData() {
-    if (_nameTextController.text.isNotEmpty &&
-        _categoryTextController.text.isNotEmpty &&
-        _descriptionTextController.text.isNotEmpty &&
-        _priceTextController.text.isNotEmpty &&
-        _imageTextController.text.isNotEmpty) {
+    if (_titleTextController.text.isNotEmpty &&
+        _priceController.text.isNotEmpty) {
       return true;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Enter Required Data"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    showSnackBar(context, message: 'Enter required data!', error: true);
     return false;
   }
 
-  void register() {
-    Navigator.pushReplacementNamed(context, "/sign_in_screen");
-  }
+  Future<void> _save() async {
+    bool status = isNewNote()
+        ? await FbFireStoreController().Create(product: product)
+        : await FbFireStoreController().Update(product: product);
 
-  void performRegister() {
-    if (checkData()) {
-      register();
+    String message = status ? 'Note saved successfully' : 'Note save failed!';
+    // ignore: use_build_context_synchronously
+    showSnackBar(context, message: message, error: !status);
+    if (isNewNote()) {
+      _clear();
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
   }
 
-  // void _register() async {
-  //   bool saved = await ProductController().save(
-  //     _nameTextController.text,
-  //     _categoryTextController.text,
-  //     _descriptionTextController.text,
-  //     _priceTextController.text,
-  //     _imageTextController.text,
-  //   );
-  //   if (saved) {
-  //     Navigator.pop(context);
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text("Registration failed, check and try again"),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //   }
-  // }
+  void _clear() {
+    _titleTextController.text = '';
+    _priceController.text = '';
+  }
+
+  Product get product {
+    Product product = isNewNote() ? Product() : widget.product!;
+    product.title = _titleTextController.text;
+    product.price = _priceController.text;
+    return product;
+  }
+
+  bool isNewNote() => widget.product == null;
 }

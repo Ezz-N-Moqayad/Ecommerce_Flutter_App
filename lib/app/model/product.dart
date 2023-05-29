@@ -1,16 +1,23 @@
 class Product {
-  late int id;
-  final String name;
-  final String category;
-  final String description;
-  final String price;
-  final String image;
+  late String id;
 
-  Product({
-    required this.name,
-    required this.category,
-    required this.description,
-    required this.price,
-    required this.image,
-  });
+  // late String image;
+  late String title;
+  late String price;
+
+  Product();
+
+  Product.fromMap(Map<String, dynamic> map) {
+    // image = map['image'];
+    title = map['title'];
+    price = map['price'];
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = <String, dynamic>{};
+    // map['image'] = image;
+    map['title'] = title;
+    map['price'] = price;
+    return map;
+  }
 }
